@@ -1,7 +1,4 @@
-\PassOptionsToPackage{ELEC}{aaltologo}
-\documentclass[logo=bluequo,normaltitle]{aaltoslides} 
-%\documentclass{aaltoslides} % DEFAULT
-%\documentclass[first=purple,second=lgreen,logo=bquo,normaltitle,nofoot]{aaltoslides} % SOME OPTION EXAMPLES
+\documentclass{sdkslides} 
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -46,13 +43,12 @@
 \title{\Huge{TheSyDeKick}\\ \vspace{0.2in} \normalsize{System development and
 verification framework in Python}}
 
-\institute[ELE]{Department of Electronics and Nanoengineering\\
-Aalto University, School of Electrical Engineering}
+\institute[ELE]{TheSyDeKick Community}
 
-\author{Marko Kosunen and TheSyDeKick contributors}
+\author{TheSyDeKick contributors}
 
 
-\aaltofootertext{TheSyDeKick demo}{\lectdate}{\arabic{page}/\pageref{LastPage}\ }
+\sdkfootertext{TheSyDeKick demo}{\lectdate}{\arabic{page}/\pageref{LastPage}\ }
 
 \date{\lectdate}
 
@@ -79,12 +75,13 @@ Aalto University, School of Electrical Engineering}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generates the titleframe
-\aaltotitleframe
+\sdktitleframe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% CONTENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{section in toc}[ball unnumbered]
 \section*{Outline}
 \begin{frame}[c]
     \frametitle{Outline}
