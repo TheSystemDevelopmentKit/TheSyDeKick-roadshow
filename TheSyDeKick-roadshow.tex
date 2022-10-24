@@ -125,10 +125,10 @@ verification framework in Python}}
     \centering
         \includegraphics[width=0.65\textwidth]{Pics/TheSDK_block_diagram.eps}
         \begin{itemize}
-            \item TheSyDeKick fromalims helps the designed to: 
+            \item TheSyDeKick formalism helps the designed to: 
             \begin{itemize}
                 \item Write and simulate modular, hierarchical, IO compatible
-                    hardware models wit various levels of abstraction (python,
+                    hardware models with various levels of abstraction (python,
                     spice/rtl)
                 \item Control the abstraction level with one parameter on
                     chosen level of hierarchy.
@@ -153,8 +153,10 @@ verification framework in Python}}
                 \item Defining simulator calls
                 \item Documentation of the design with Docstrings
             \end{itemize}
-        \item Currently supports Python, Verilog, VHDL and three spice
+        \item Currently supports Python, Verilog, VHDL and three Spice
             variants.
+        \item Open source simulators: Icarus for Verilog, NgSpice for analog
+            circuits.
         \item Under construction: Measurement equipment.
         \item \url{https://github.com/TheSystemDevelopmentKit}
     \end{itemize}
@@ -532,7 +534,7 @@ verification framework in Python}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Hattrick: Outphasing transmitter}
+\renewcommand{\sectionname}{Example5: Outphasing transmitter}
 \subsection*{\sectionname}
 \begin{frame}[c]
     \frametitle{\sectionname}
@@ -550,6 +552,43 @@ verification framework in Python}}
     \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[c]
+    \frametitle{Example 6: A-Core RISC-V processor Chip}
+    \begin{itemize}
+        \item SoC built with ACoreBase
+        \item AXI4-Lite on-chip interconnect
+        \item Memory mapped peripherals
+            \begin{itemize}
+                \item Random Access Memory (RAM)
+                \item Read-only access to instruction memory (ProgMem)
+                \item General Purpose Input/Output (GPIO)
+                \item Custom accelerator IP
+            \end{itemize}
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.8\textwidth]{./Pics/acorechip.eps}
+        \label{fig:acorechip}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[c]
+    \frametitle{A-Core Chip verification }
+    \begin{center}
+        \begin{tikzpicture}[every node/.style={inner sep=0ex,outer sep=0}]
+            \tikzstyle{item}=[draw=black, rounded corners, 
+                 fill=secondarycolor!10, drop shadow, align=center, 
+                  anchor=center, text=black, rectangle, 
+                   minimum width=3cm, minimum height=2cm]
+                   \node (soft) [item]{ ELF fiele };
+                   \node (chip) [anchor = west, left = 1cm of soft.east ]{\includegraphics[width=.8\textwidth]{./Pics/acorechip.eps} };
+                   %draw[>=latex,primarycolor,very thick,<->] (n2.east) 
+                   %to [out=0,in=180] (n5.west);
+               \end{tikzpicture}
+    \end{center}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{Conclusion}
@@ -570,5 +609,15 @@ verification framework in Python}}
     \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{Acknowledgement}
+\section{\sectname}
+\begin{frame}[t]
+    \frametitle{\sectname}
+    \begin{itemize}
+        \item Lot of the development work has been carried out by student of
+            Aalto University, Finland.  
+    \end{itemize}
+\end{frame}
 
 \end{document}
