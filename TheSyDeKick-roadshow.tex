@@ -43,26 +43,10 @@
 \title{\Huge{TheSyDeKick}\\ \vspace{0.2in} \normalsize{System development and
 verification framework in Python}}
 
-\institute[ELE]{TheSyDeKick Community}
-
-\author{TheSyDeKick contributors}
-
-
-\sdkfootertext{TheSyDeKick demo}{\lectdate}{\arabic{page}/\pageref{LastPage}\ }
-
+\author{Presenter: Marko Kosunen \\Authors: TheSyDeKick contributors}
 \date{\lectdate}
 
-\newcommand{\tellipse}[4]{
-    \begin{tikzpicture}[overlay]
-        \draw[secondarycolor,thick] (#1,#2) ellipse (#3 and #4);
-    \end{tikzpicture}
-}
-
-\newcommand{\tarrow}[2]{
-    \begin{tikzpicture}[overlay]
-        \draw[secondarycolor,thick,->] (#1) -- (#2);
-    \end{tikzpicture}
-}
+\sdkfootertext{TheSyDeKick Roadshow}{\lectdate}{\arabic{page}/\pageref{LastPage}\ }
 
 % Copies outline as an sectiontitleslide
 %\AtBeginSection[]
@@ -75,6 +59,7 @@ verification framework in Python}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generates the titleframe
+\section*{Title}
 \sdktitleframe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -92,10 +77,12 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \sectiontitle[TheSyDeKick - What it is]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{What is it?}
-\section{\sectname}
+\subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
     \centering
@@ -118,8 +105,9 @@ verification framework in Python}}
         \end{itemize}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{What is it?}
+\subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
     \centering
@@ -137,7 +125,9 @@ verification framework in Python}}
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{What is it?}
+\subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
     \begin{itemize}
@@ -188,6 +178,489 @@ verification framework in Python}}
     \end{block}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Simulator interfaces]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{Analog simulator interface}
+\section{\sectname}
+\begin{frame}[t]
+    \frametitle{\sectname}
+    \begin{itemize}
+        \item Calling analog simulators is handled through a common interface, the \textbf{spice} module
+        \item Ultimate goal of \textbf{spice}: support for most industry standard simulators
+        \begin{itemize}
+            \item General (w.r.t to simulator), reusable simulation testbenches
+            \item Centralized post processing based on open source tools and
+                libraries.
+        \end{itemize}
+            \item Save time in re-writing testbenches for different simulations and centralize effort to all-in-one testbench
+        \begin{itemize}
+        \item Currently support for DC, AC, and Transient analysis. Easy to
+            add other analysis types as IO formats are the same. 
+        \end{itemize}
+        \item \url{https://github.com/TheSystemDevelopmentKit/spice}
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{Digital simulator interface}
+\section{\sectname}
+\begin{frame}[t]
+    \frametitle{\sectname}
+    \begin{itemize}
+        \item Calling digital simulators is handled the \textbf{rtl} module
+        %\item \textbf{rtl}: currently supports Questasim
+        \begin{itemize}
+            \item Most commonly used simulation testbenches automatically
+                generated for both Verilog and VHDL design under tests.
+            \item Automated file IO generation for strings (bit vectors), integers, and complex numbers. 
+            \item Support for any signal type through customizable format
+                parameter.
+        \end{itemize}
+        %\begin{itemize}
+        %    \item Future plans: Support for Verilator
+        %\end{itemize}
+        \item \url{https://github.com/TheSystemDevelopmentKit/rtl}
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{TheSyDeKick simulation procedure}
+\begin{frame}[t]
+    \frametitle{\sectname}
+        \begin{enumerate}
+            \item Write the testbench
+            \begin{enumerate}
+                \item Specify analysis type, inputs, outputs, supplies etc. based on TB properties
+                \item Configure simulator options, corners, etc. based on
+                    testbench properties
+                \item Specify desired outputs, e.g. FFT of waveform, transient waveform
+                \item Specify run cases, e.g. transient analysis for 2 different netlists, etc.
+            \end{enumerate}
+            \item Run the simulation
+            \item Analyze results
+            \item (Optional) Repeat simulation for different sets of parameters
+        \end{enumerate}
+        \begin{itemize}
+            \item Once you have one testbench, reuse for similar applications makes things faster
+            \item Results saved (if user chooses so), no need to repeat lengthy simulations to fix errors in post processing
+        \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 1: Inverter]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 1: Inverter}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_1}
+    \begin{itemize}
+        \item Functional model: Inverts input signal
+        \item IOS is a Bundle-type container for storing IO data
+        \item Can have as many members as needed
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_2}
+    \begin{itemize}
+        \item Multiple representations of the same entity
+        \item Self-test is a way to verify the functionality of entity ``in
+            vacuum''
+        \item Self-test generates and feeds the identical input
+            data to all simulators
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 2: Inverter chain]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 2: Inverter Chain}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_0}
+    \begin{itemize}
+        \item A separate \textbf{Testbench} entity is instantiated
+        \item Chain of inverter instance is created with a for loop
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_2}
+    \begin{itemize}
+        \item A separate \textbf{Testbench} entity is instantiated
+        \item Chain of inverter instance is created with a for loop
+        \item Data flow defined by IOS connections
+    \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_3}
+    \begin{itemize}
+        \item A separate \textbf{Testbench} entity is instantiated
+        \item Chain of inverter instance is created with a for loop
+        \item Data flow defined by IOS connections
+        \item Testbench input is assigned as input of 1st element
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_4}
+    \begin{itemize}
+        \item A separate \textbf{Testbench} entity is instantiated
+        \item Chain of inverter instance is created with a for loop
+        \item Data flow defined by IOS connections
+        \item Testbench input is assigned as input of 1st element
+        \item Signal is propagated through the chain by running the entities
+            in sequence
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_5}
+    \begin{itemize}
+        \item In the end, the output of the last element contains processed data
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 3: ADC model]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 3: ADC Model}
+\subsection*{\sectionname} 
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_0}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 3: ADC Model}
+\subsection*{\sectionname} 
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_1}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 3: ADC Model}
+\subsection*{\sectionname} 
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_2}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 3: ADC Model}
+\subsection*{\sectionname} 
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \centering
+    Full ADC Model in Python
+    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_py}
+    \begin{itemize}
+        \item Spectrum plotted by signal\_analyser -module, which also
+            calculates SNDR etc.
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 3: ADC Model}
+\subsection*{\sectionname} 
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \centering
+    Full ADC Model in Python with Transistor-level TDC Model
+    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_eldo}
+    \begin{itemize}
+        \item Same exact simulation as before, except the TDC block is
+            simulated as a spice-netlist in Eldo
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 4: Multi-user MIMO receiver]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Example 4: Multi-user MIMO receiver}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \includegraphics[width=\textwidth]{Pics/Fader2_simulator.eps}
+    \begin{itemize}
+        \item Goals:
+            \begin{itemize}
+                \item  First, model the receiver of a single chip with python
+                \item  Python models swappable to RTL and analog models 
+                \item  Generated sub-blocks verified at the system level
+                \item  Control the HW generators of the block (emerging feature)
+            \end{itemize}
+
+    \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{DSP modeling example}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-ideal.png}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Python/RTL example simulation}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-decimator_effect.png}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 5: Outphasing transmitter]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Outphasing transmitter system}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{block}{Outphasing system simulation}
+        \begin{center}
+            \includegraphics[width=\textwidth]{Pics/outphasing_model.eps}
+        \end{center}
+    \end{block}    \begin{itemize}
+        \item System development
+            \begin{itemize}
+                \item  Model the transmitter chip with python
+                \item  Model the ideal receiver in python
+                \item  Simulate the functionality
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_20b_v2.eps}
+    \includegraphics[width=0.48\textwidth]{Pics/evm_20bit_multop_v2.eps}
+    \begin{itemize}
+        \item EVM 0.34% 
+    \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item System verification
+            \begin{itemize}
+                \item  Replace the transmitter DSP with RTL models
+                \item  Verify functionality
+            \end{itemize}
+    \end{itemize}
+    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_10b_v2.eps}
+    \includegraphics[width=0.48\textwidth]{Pics/evm_10bit_multop_v2.eps}
+    \begin{itemize}
+        \item EVM=0.60% 
+    \end{itemize}
+\end{frame}
+
+\sectiontitle[Example 6: A-Core RISC-V processor chip]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{A-Core RISC-V processor chip}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item SoC built with ACoreBase
+        \item AXI4-Lite on-chip interconnect
+        \item Memory mapped peripherals
+            \begin{itemize}
+                \item Random Access Memory (RAM)
+                \item Read-only access to instruction memory (ProgMem)
+                \item General Purpose Input/Output (GPIO)
+                \item Custom accelerator IP
+            \end{itemize}
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.8\textwidth]{./Pics/acorechip.eps}
+        \label{fig:acorechip}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{A-Core chip TheSydeKick verification}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{A-Core chip verification }
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{TheSyDeKick simulations}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item For system-level simulations
+        \item TheSyDeKick automates the following verification tasks
+        \begin{itemize}
+            \item Generate a simulation test vector
+            \begin{itemize}
+                \item JTAG programming waveform from ELF file
+                \item Chip control signals (e.g. core enable)
+            \end{itemize}
+            \item Generate a verilog testbench
+            \item Invoke a digital simulator (ModelSim)
+        \end{itemize}
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=0.65\linewidth]{./Pics/prog_sequence.png}
+    \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{ACoreChip Entity}
+\subsection*{\sectionname}
+\begin{frame}[c,fragile]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Represents a simulatable model of ACoreChip
+        \item Submodules
+        \begin{itemize}
+            \item ACoreChip Chisel generator \verb|chisel/|
+        \end{itemize}
+    \end{itemize}
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{ACoreTestbenches}
+\subsection*{\sectionname}
+\begin{frame}[t,fragile]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item \verb|ACoreTestbenches| instance represents a test bench
+            configuration.
+        \item Testbench configuration is selected with appropriate
+            \verb|define*|
+            method
+        \begin{itemize}
+            \item For example, \verb|define_acorechip_sim_testbench(**kwargs)|
+                configures test-bench as a acorechip simulation.
+            \item Software, jtag config., etc. are provided as keyword
+                arguments to \verb|define*|
+        \end{itemize}
+    \end{itemize}
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{ACoreTestbenches}
+\subsection*{\sectionname}
+\begin{frame}[t,fragile]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item A testbench configuration is a general combination of entities
+            and related configuration for representing a unique test setup.
+        \item The simulation testbench has two options: The SyDeKick and cocotb
+        \begin{itemize}
+            \item The SyDeKick uses its own structures to generate the Verilog testbench, IO's and run with modelsim
+            \item Cocotb runs a cocotb test - can be used to create interactive debug environments in the future
+        \end{itemize}
+    \end{itemize}
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{ACoreTests}
+\subsection*{\sectionname}
+\begin{frame}[t,fragile]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item \verb|ACoreTests| contains different concrete parameterizations
+            of \verb|ACoreTestbenches| and their dependencies:
+        \begin{itemize}
+            \item Test software live under \verb|sw/|
+            \item Simulation specific do-files live under
+                \verb|interactive_control_files/modelsim|
+        \end{itemize}
+        \item Each test is defined as a method under \verb|ACoreTests| class.
+        \item For example, \verb|sim_f_tests| configures a testbench with
+            \begin{itemize}
+                \item F-extension enabled
+                \item test program for f-extension
+            \end{itemize}
+    \end{itemize}
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{ACoreTests}
+\subsection*{\sectionname}
+\begin{frame}[t,fragile]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item The test to be executed is selected with a command line
+            argument. For example, \verb|$ ./configure && make sim test_target=sim_f_tests|
+            runs the simulation defined as \verb|sim_f_tests|
+        \item The simulator option can be selected with \verb|simulator| argument for make, 
+            for example \verb|$ make sim test_target=sim_f_tests simulator=cocotb|
+    \end{itemize}
+    \begin{block}{A-Core test setup}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{./Pics/A-Core_testsetup.eps}
+        \end{center}
+    \end{block}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\renewcommand{\sectionname}{ECD BAG project structure}
@@ -263,338 +736,14 @@ verification framework in Python}}
 %\end{frame}
 
 %%% Additions by Santeri
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sectiontitle[Simulator interfaces]
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Analog simulator interface}
-\section{\sectname}
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \begin{itemize}
-        \item Calling analog simulators is handled through a common interface, the \textbf{spice} module
-        \item Ultimate goal of \textbf{spice}: support for most industry standard simulators
-        \begin{itemize}
-            \item General (w.r.t to simulator), reusable simulation testbenches
-            \item Centralized post processing based on open source tools and
-                libraries.
-        \end{itemize}
-            \item Save time in re-writing testbenches for different simulations and centralize effort to all-in-one testbench
-        \begin{itemize}
-        \item Currently support for DC, AC, and Transient analysis. Easy to
-            add other analysis types as IO formats are the same. 
-        \end{itemize}
-        \item \url{https://github.com/TheSystemDevelopmentKit/spice}
-    \end{itemize}
-\end{frame}
-
+\sectiontitle[Conlusion and acknowledgements]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Digital simulator interface}
-\section{\sectname}
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \begin{itemize}
-        \item Calling digital simulators is handled the \textbf{rtl} module
-        %\item \textbf{rtl}: currently supports Questasim
-        \begin{itemize}
-            \item Most commonly used simulation testbenches automatically
-                generated for both Verilog and VHDL design under tests.
-            \item Automated file IO generation for strings (bit vectors), integers, and complex numbers. 
-            \item Support for any signal type through customizable format
-                parameter.
-        \end{itemize}
-        %\begin{itemize}
-        %    \item Future plans: Support for Verilator
-        %\end{itemize}
-        \item \url{https://github.com/TheSystemDevelopmentKit/rtl}
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{TheSyDeKick simulation procedure}
-\begin{frame}[t]
-    \frametitle{\sectname}
-        \begin{enumerate}
-            \item Write the testbench
-            \begin{enumerate}
-                \item Specify analysis type, inputs, outputs, supplies etc. based on TB properties
-                \item Configure simulator options, corners, etc. based on
-                    testbench properties
-                \item Specify desired outputs, e.g. FFT of waveform, transient waveform
-                \item Specify run cases, e.g. transient analysis for 2 different netlists, etc.
-            \end{enumerate}
-            \item Run the simulation
-            \item Analyze results
-            \item (Optional) Repeat simulation for different sets of parameters
-        \end{enumerate}
-        \begin{itemize}
-            \item Once you have one testbench, reuse for similar applications makes things faster
-            \item Results saved (if user chooses so), no need to repeat lengthy simulations to fix errors in post processing
-        \end{itemize}
-\end{frame}
-
-
-%%% End additions by Santeri
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sectiontitle[Design Examples]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Example 1: Inverter}
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_1}
-    \begin{itemize}
-        \item Functional model: Inverts input signal
-        \item IOS is a Bundle-type container for storing IO data
-        \item Can have as many members as needed
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_2}
-    \begin{itemize}
-        \item Multiple representations of the same entity
-        \item Self-test is a way to verify the functionality of entity ``in
-            vacuum''
-        \item Self-test generates and feeds the identical input
-            data to all simulators
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Example 2: Inverter Chain}
-\section{\sectname}
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_0}
-    \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_2}
-    \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
-        \item Data flow defined by IOS connections
-    \end{itemize}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_3}
-    \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
-        \item Data flow defined by IOS connections
-        \item Testbench input is assigned as input of 1st element
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_4}
-    \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
-        \item Data flow defined by IOS connections
-        \item Testbench input is assigned as input of 1st element
-        \item Signal is propagated through the chain by running the entities
-            in sequence
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[t]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_5}
-    \begin{itemize}
-        \item In the end, the output of the last element contains processed data
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Example 3: ADC Model}
-\section{\sectname} 
-\begin{frame}[c]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_0}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_1}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{\sectname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_2}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{\sectname}
-    \centering
-    Full ADC Model in Python
-    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_py}
-    \begin{itemize}
-        \item Spectrum plotted by signal\_analyser -module, which also
-            calculates SNDR etc.
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{\sectname}
-    \centering
-    Full ADC Model in Python with Transistor-level TDC Model
-    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_eldo}
-    \begin{itemize}
-        \item Same exact simulation as before, except the TDC block is
-            simulated as a spice-netlist in Eldo
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Example 4: Multi-user MIMO receiver}
+\renewcommand{\sectionname}{Conclusion}
 \subsection*{\sectionname}
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \includegraphics[width=\textwidth]{Pics/Fader2_simulator.eps}
-    \begin{itemize}
-        \item Goals:
-            \begin{itemize}
-                \item  First, model the receiver of a single chip with python
-                \item  Python models swappable to RTL and analog models 
-                \item  Generated sub-blocks verified at the system level
-                \item  Control the HW generators of the block (emerging feature)
-            \end{itemize}
-
-    \end{itemize}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{DSP modeling example}
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-ideal.png}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Python/RTL example simulation}
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-decimator_effect.png}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Example 5: Outphasing transmitter}
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \frametitle{\sectionname}
-    \centering\includegraphics[width=\textwidth]{Pics/HT_system.eps}
-    \begin{itemize}
-        \item System development
-            \begin{itemize}
-                \item  Model the transmitter chip with python
-                \item  Model the ideal receiver in python
-                \item  Simulate the functionality
-            \end{itemize}
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection*{\sectionname}
-\begin{frame}[c]
-    \frametitle{\sectionname}
-    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_20b_v2.eps}
-    \includegraphics[width=0.48\textwidth]{Pics/evm_20bit_multop_v2.eps}
-    \begin{itemize}
-        \item EVM 0.34% 
-    \end{itemize}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Example5: Outphasing transmitter}
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \frametitle{\sectionname}
-    \begin{itemize}
-        \item System verification
-            \begin{itemize}
-                \item  Replace the transmitter DSP with RTL models
-                \item  Verify functionality
-            \end{itemize}
-    \end{itemize}
-    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_10b_v2.eps}
-    \includegraphics[width=0.48\textwidth]{Pics/evm_10bit_multop_v2.eps}
-    \begin{itemize}
-        \item EVM=0.60% 
-    \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{Example 6: A-Core RISC-V processor Chip}
-    \begin{itemize}
-        \item SoC built with ACoreBase
-        \item AXI4-Lite on-chip interconnect
-        \item Memory mapped peripherals
-            \begin{itemize}
-                \item Random Access Memory (RAM)
-                \item Read-only access to instruction memory (ProgMem)
-                \item General Purpose Input/Output (GPIO)
-                \item Custom accelerator IP
-            \end{itemize}
-    \end{itemize}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.8\textwidth]{./Pics/acorechip.eps}
-        \label{fig:acorechip}
-    \end{figure}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[c]
-    \frametitle{A-Core Chip verification }
-    \begin{center}
-        \begin{tikzpicture}[every node/.style={inner sep=0ex,outer sep=0}]
-            \tikzstyle{item}=[draw=black, rounded corners, 
-                 fill=secondarycolor!10, drop shadow, align=center, 
-                  anchor=center, text=black, rectangle, 
-                   minimum width=3cm, minimum height=2cm]
-                   \node (soft) [item]{ ELF fiele };
-                   \node (chip) [anchor = west, left = 1cm of soft.east ]{\includegraphics[width=.8\textwidth]{./Pics/acorechip.eps} };
-                   %draw[>=latex,primarycolor,very thick,<->] (n2.east) 
-                   %to [out=0,in=180] (n5.west);
-               \end{tikzpicture}
-    \end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Conclusion}
-\section{\sectname}
-\begin{frame}[t]
-    \frametitle{\sectname}
     \begin{itemize}
         \item Modular design environment through well defined IO boundaries and
             \emph{Entity} definitions.
@@ -610,14 +759,30 @@ verification framework in Python}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{Acknowledgement}
-\section{\sectname}
+\renewcommand{\sectionname}{Acknowledgement}
+\subsection*{\sectionname}
 \begin{frame}[t]
-    \frametitle{\sectname}
+    \frametitle{\sectionname}
     \begin{itemize}
-        \item Lot of the development work has been carried out by student of
-            Aalto University, Finland.  
-    \end{itemize}
+
+        \item TheSyDeKick framework has been initiated during 2017-2019 under Marie
+            Sklodowska-Curie project \emph{ADVANTAG5}, in collaboration with Aalto
+            University and University of California, Berkeley. (See licences,
+                \emph{https://github.com/TheSystemDevelopmentKit/thesdk}
+            )
+        \item Since the end of  \emph{ADVANTAG5} 2019, Lot of valuable
+            development work has been carried out by several students of Aalto
+            University, Finland.  
+    \end{itemize} 
+
+    \vfill
+
+    \tiny{This project has received funding from the European Union’s
+        Horizon 2020 research and innovation programme under the Marie
+        Sklodowska-Curie grant agreement No 704947. Results reflects only
+        the author's view and the European Comissions's Research Executive
+        Agency Agency is not responsible for any use that may be made of
+    the information it contains. }
 \end{frame}
 
 \end{document}
