@@ -1,6 +1,4 @@
 \documentclass{sdkslides} 
-
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{amssymb,amsmath}
@@ -14,6 +12,7 @@
 \usepackage{caption}
 \usepackage{apacite}
 \usepackage{tikz}
+\usepackage{subfig}
 \usetikzlibrary{positioning,shapes,shadows,arrows}
 \tikzset{
   every overlay node/.style={
@@ -81,12 +80,25 @@ verification framework in Python}}
 \sectiontitle[TheSyDeKick - What it is]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{What is it?}
+\renewcommand{\sectname}{TheSyDeKick project strusture}
 \subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
-    \centering
+    \begin{block}{TheSyDeKick project{TheSyDeKick project}}
+        \begin{center}
+            \includegraphics[width=\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{What is TheSyDeKick}
+\subsection*{\sectname}
+\begin{frame}[t]
+    \frametitle{\sectname}
+    \begin{center}
         \includegraphics[width=0.3\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
+    \end{center}
         \begin{itemize}
             \item TheSyDeKick is a well structured container for: 
                 \begin{itemize}
@@ -113,15 +125,17 @@ verification framework in Python}}
     \centering
         \includegraphics[width=0.65\textwidth]{Pics/TheSDK_block_diagram.eps}
         \begin{itemize}
-            \item TheSyDeKick formalism helps the designed to: 
+            \item TheSyDeKick formalism helps the designer to: 
             \begin{itemize}
                 \item Write and simulate modular, hierarchical, IO compatible
                     hardware models with various levels of abstraction (python,
-                    spice/rtl)
+                    spice/rtl or even EM field simulatotor)
                 \item Control the abstraction level with one parameter on
                     chosen level of hierarchy.
             \end{itemize}
         \end{itemize}
+        {\tiny
+        \url{https://github.com/TheSystemDevelopmentKit/thesdk_template/wiki/The-System-Development-Kit}}
 \end{frame}
 
 
@@ -141,15 +155,17 @@ verification framework in Python}}
                 \item Model and modeling environment structure with init scripts
                 \item Running simulations
                 \item Defining simulator calls
-                \item Documentation of the design with Docstrings
+                \item Documentation with Docstrings see for
+                    example. {\tiny
+                    \url{https://thesystemdevelopmentkit.github.io/docs/index.html}}
             \end{itemize}
         \item Currently supports Python, Verilog, VHDL and three Spice
             variants.
         \item Open source simulators: Icarus for Verilog, NgSpice for analog
             circuits.
         \item Under construction: Measurement equipment.
-        \item \url{https://github.com/TheSystemDevelopmentKit}
     \end{itemize}
+    {\tiny \url{https://github.com/TheSystemDevelopmentKit}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,16 +182,18 @@ verification framework in Python}}
             .3 thesdk/.
             .3 rtl/.
             .3 spice/.
+            .3 ads/.
             .3 amplifier/.
             .4 amplifier/.
             .5 \_\_init\_\_.py.
             .4 spice/.
-            .4 Simulations/.
+            .4 simulations/.
             .4 doc/.
         }
     }
     \end{minipage}
     \end{block}
+    {\tiny \url{https://github.com/TheSystemDevelopmentKit/thesdk_template}}
 \end{frame}
 
 
@@ -184,7 +202,7 @@ verification framework in Python}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{Analog simulator interface}
-\section{\sectname}
+\subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
     \begin{itemize}
@@ -206,12 +224,11 @@ verification framework in Python}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{Digital simulator interface}
-\section{\sectname}
+\subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
     \begin{itemize}
         \item Calling digital simulators is handled the \textbf{rtl} module
-        %\item \textbf{rtl}: currently supports Questasim
         \begin{itemize}
             \item Most commonly used simulation testbenches automatically
                 generated for both Verilog and VHDL design under tests.
@@ -226,6 +243,23 @@ verification framework in Python}}
     \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{EM field simulator interface}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Interface enables EM simulator Momentum from python desing
+            environment.
+        \item Used so far for example:
+            \begin{itemize}
+                \item Together with Berkeley Analog Generator in
+                    characterization of parametrized inductors transformers.
+                \item In extraction of S-parameters from 3D layout structures.
+            \end{itemize}
+            \item \url{https://github.com/TheSystemDevelopmentKit/ads}
+    \end{itemize}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{TheSyDeKick simulation procedure}
 \begin{frame}[t]
@@ -258,8 +292,9 @@ verification framework in Python}}
 \subsection*{\sectionname}
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_1}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_single_1}
+    \end{center}
     \begin{itemize}
         \item Functional model: Inverts input signal
         \item IOS is a Bundle-type container for storing IO data
@@ -270,8 +305,9 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_single_2}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_single_2}
+    \end{center}
     \begin{itemize}
         \item Multiple representations of the same entity
         \item Self-test is a way to verify the functionality of entity ``in
@@ -289,8 +325,9 @@ verification framework in Python}}
 \subsection*{\sectionname}
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_0}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_0}
+    \end{center}
     \begin{itemize}
         \item A separate \textbf{Testbench} entity is instantiated
         \item Chain of inverter instance is created with a for loop
@@ -300,8 +337,9 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_2}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_2}
+    \end{center}
     \begin{itemize}
         \item A separate \textbf{Testbench} entity is instantiated
         \item Chain of inverter instance is created with a for loop
@@ -313,8 +351,9 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_3}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_3}
+    \end{center}
     \begin{itemize}
         \item A separate \textbf{Testbench} entity is instantiated
         \item Chain of inverter instance is created with a for loop
@@ -326,8 +365,9 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_4}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_4}
+    \end{center}
     \begin{itemize}
         \item A separate \textbf{Testbench} entity is instantiated
         \item Chain of inverter instance is created with a for loop
@@ -341,8 +381,9 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_5}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_5}
+    \end{center}
     \begin{itemize}
         \item In the end, the output of the last element contains processed data
     \end{itemize}
@@ -356,8 +397,9 @@ verification framework in Python}}
 \subsection*{\sectionname} 
 \begin{frame}[c]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_0}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{Pics/sdk_model_0}
+    \end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -365,8 +407,9 @@ verification framework in Python}}
 \subsection*{\sectionname} 
 \begin{frame}[c]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_1}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{Pics/sdk_model_1}
+    \end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -374,8 +417,9 @@ verification framework in Python}}
 \subsection*{\sectionname} 
 \begin{frame}[c]
     \frametitle{\sectionname}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Pics/sdk_model_2}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{Pics/sdk_model_2}
+    \end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -383,9 +427,10 @@ verification framework in Python}}
 \subsection*{\sectionname} 
 \begin{frame}[c]
     \frametitle{\sectionname}
-    \centering
-    Full ADC Model in Python
-    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_py}
+    \begin{center}
+        Full ADC Model in Python
+        \includegraphics[width=0.8\textwidth]{Pics/latido_fft_py}
+    \end{center}
     \begin{itemize}
         \item Spectrum plotted by signal\_analyser -module, which also
             calculates SNDR etc.
@@ -397,9 +442,10 @@ verification framework in Python}}
 \subsection*{\sectionname} 
 \begin{frame}[c]
     \frametitle{\sectionname}
-    \centering
-    Full ADC Model in Python with Transistor-level TDC Model
-    \includegraphics[width=0.8\textwidth]{Pics/latido_fft_eldo}
+    \begin{center}
+        Full ADC Model in Python with Transistor-level TDC Model
+        \includegraphics[width=0.8\textwidth]{Pics/latido_fft_eldo}
+    \end{center}
     \begin{itemize}
         \item Same exact simulation as before, except the TDC block is
             simulated as a spice-netlist in Eldo
@@ -414,7 +460,9 @@ verification framework in Python}}
 \subsection*{\sectionname}
 \begin{frame}[t]
     \frametitle{\sectionname}
-    \includegraphics[width=\textwidth]{Pics/Fader2_simulator.eps}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Pics/Fader2_simulator.eps}
+    \end{center}
     \begin{itemize}
         \item Goals:
             \begin{itemize}
@@ -437,7 +485,9 @@ verification framework in Python}}
 \renewcommand{\sectionname}{Python/RTL example simulation}
 \subsection*{\sectionname}
 \begin{frame}[c]
-    \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-decimator_effect.png}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Pics/DSP-example-fader2-decimator_effect.png}
+    \end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -462,35 +512,107 @@ verification framework in Python}}
     \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{Interpolator frequency response}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model.eps}
+    \end{center}
+    \begin{figure}
+        \begin{center}
+            \subfloat[Interpolator SW]{\includegraphics[width=0.4\textwidth]{./Pics/interp_out_f_sw.eps}}\qquad
+            \subfloat[Interpolator
+            HW]{\includegraphics[width=0.4\textwidth]{./Pics/interp_out_f_hw.eps}}
+        \end{center}
+    \end{figure}
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \frametitle{\sectionname}
-    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_20b_v2.eps}
-    \includegraphics[width=0.48\textwidth]{Pics/evm_20bit_multop_v2.eps}
+\begin{frame}[t]
+    \frametitle{Interpolator EVM simulation}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model_interp.eps}
+    \end{center}
+    \begin{figure}
+        \begin{center}
+            \subfloat[Interpolator HW (EVM,
+            16-bit)]{\includegraphics[width=0.30\textwidth]{Pics/evm_16bit.eps}}\qquad
+            \subfloat[Interpolator HW (EVM,
+            20-bit)]{\includegraphics[width=0.4\textwidth]{Pics/evm_20bit.eps}}
+        \end{center}
+     \end{figure}
+     \begin{itemize}
+         \item EVM(16-bit): 1.6 - 1.52\%
+         \item EVM(20-bit): 1.3 - 1.08\%
+     \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{Interpolator EVM and ACLR}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model_interp.eps}
+    \end{center}
+    \begin{figure}
+        \subfloat[Interpolator (HW, EVM)]{\includegraphics[width=0.4\textwidth]{Pics/evm_interp_v4.eps}}\qquad
+        \subfloat[Interpolator (HW,
+        ACLR)]{\includegraphics[width=0.4\textwidth]{Pics/interp_hw_ACLR_v4.eps}}
+    \end{figure}
     \begin{itemize}
-        \item EVM 0.34% 
+        \item EVM : $0.338\%$
+        \item ACLR: $-53.64, -53.74$ dB
+    \end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{Interpolator hardware EVM and ACLR}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model_interp.eps}
+    \end{center}
+    \begin{figure}
+        \begin{center}
+            \subfloat[Interpolator (HW, EVM)]{\includegraphics[width=0.4\textwidth]{./Pics/evm_interp_v4wmem.eps}}\qquad
+            \subfloat[Interpolator (HW, ACLR)]{\includegraphics[width=0.4\textwidth]{./Pics/interp_hw_ACLR_v4wmem.eps}}
+        \end{center}
+    \end{figure}
+    \begin{itemize}
+        \item EVM : $0.339\%$
+        \item ACLR: $ -53.62, -53.71$ dB
     \end{itemize}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{\sectionname}
-\begin{frame}[c]
-    \frametitle{\sectionname}
+\begin{frame}[t]
+    \frametitle{SCS 6-bit resolution EVM}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model_scs.eps}
+    \end{center}
+    \begin{figure}
+        \subfloat[EVM, SCS RTL simulation)]{\includegraphics[height=4cm,width=5cm]{./Pics/evm_6bit_scswmem.eps}}\qquad
+        \subfloat[ACLR, SCS RTL simulation)]{\includegraphics[height=4cm,width=5cm]{./Pics/scswmem_res6_ACLR.eps}}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+    \frametitle{SCS 10-bit resolution hardware EVM and ACLR }
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Pics/outphasing_model_scs.eps}
+    \end{center}
+    \begin{figure}
+        \begin{center}
+            \subfloat[EVM SCS RTL simulation]{\includegraphics[width=0.4\textwidth]{./Pics/evm_10bit_scs_v6wmem.eps}}\qquad
+            \subfloat[ACLR SCS RTL simulation]{\includegraphics[width=0.4\textwidth]{./Pics/scs_10b_ACLR_v6wmem.eps}}
+        \end{center}
+    \end{figure}
     \begin{itemize}
-        \item System verification
-            \begin{itemize}
-                \item  Replace the transmitter DSP with RTL models
-                \item  Verify functionality
-            \end{itemize}
-    \end{itemize}
-    \includegraphics[width=0.48\textwidth]{Pics/scs_out1+2_10b_v2.eps}
-    \includegraphics[width=0.48\textwidth]{Pics/evm_10bit_multop_v2.eps}
-    \begin{itemize}
-        \item EVM=0.60% 
+        \item EVM: $0.336\%$
+        \item ACLR: $-53.18, -53.31$ dB
     \end{itemize}
 \end{frame}
+
 
 \sectiontitle[Example 6: A-Core RISC-V processor chip]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -509,11 +631,7 @@ verification framework in Python}}
                 \item Custom accelerator IP
             \end{itemize}
     \end{itemize}
-    \begin{figure}
-        \centering
         \includegraphics[width=.8\textwidth]{./Pics/acorechip.eps}
-        \label{fig:acorechip}
-    \end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -662,6 +780,120 @@ verification framework in Python}}
     \end{block}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 7: EM field simulations]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Layout preparation}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Preparations: Constructing the layout from TheSyDeKick with
+            Berkeley Analog Generator.
+        \item Active development of BAG2 currently ongoing at
+            \emph{https://gitlab.com/mosaic\_group/mosaic\_BAG}
+    \end{itemize}
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{BAG workflow}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/bag_workflow}
+            \end{center}
+        \end{block}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{TheSyDeKick project structure}
+            \begin{center}
+                \includegraphics[width=0.4\textwidth]{./Pics/sdk_dirtree_v2}
+                \includegraphics[width=0.58\textwidth]{./Pics/sdk_structure_v3}
+            \end{center}
+        \end{block}
+    \end{minipage}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Transformer design flow diagram}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{block}{Design flow}
+        \begin{center}
+            \includegraphics[width=0.8\linewidth]{./Pics/inductor_flow_diagram.pdf}
+        \end{center}
+    \end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Transformer structures}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Parameters: Wire width, transformer diameter.
+    \end{itemize}
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{A stacked transformer}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/stacked_TF_3D_view_white_background.png}
+            \end{center}
+        \end{block}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{An Interwound transformer}
+            \begin{center}
+                \includegraphics[width=0.85\textwidth]{./Pics/int_TF_3D_white_background_2.png}
+            \end{center}
+        \end{block}
+    \end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Transfer functions}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{Transfer function of a stacked transformer}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/diff_S21_stacked_TF_diam_width_sweep_3.pdf}
+            \end{center}
+        \end{block}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{Transfer function of an interwound transformer}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/diff_S21_int_TF_diam_width_sweep_3.pdf}
+            \end{center}
+        \end{block}
+    \end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Insertion loss}
+\subsection*{\sectionname}
+\begin{frame}[c]
+    \frametitle{\sectionname}
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{Insertion loss of a stacked transformer}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/diff_S21_stacked_TF_3Dbar_diam_width_sweep_2.pdf}
+            \end{center}
+        \end{block}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \vskip 0pt
+        \begin{block}{Insertion loss of an interwound transformer}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./Pics/diff_S21_int_TF_3Dbar_diam_width_sweep_4.pdf}
+            \end{center}
+        \end{block}
+    \end{minipage}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\renewcommand{\sectionname}{ECD BAG project structure}
 %\subsection*{\sectionname}
@@ -738,7 +970,7 @@ verification framework in Python}}
 %%% Additions by Santeri
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sectiontitle[Conlusion and acknowledgements]
+\sectiontitle[Conclusion and acknowledgements]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectionname}{Conclusion}
 \subsection*{\sectionname}

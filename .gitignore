@@ -6,3 +6,6 @@
 *.nfs
 *.svn
 *.nav
+*.fls
+*.fdb_latexmk
+
