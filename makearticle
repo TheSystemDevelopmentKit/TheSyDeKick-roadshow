@@ -3,8 +3,8 @@
 # Convert TEX-files to PDF-files
 # Initially written by Marko Kosunen
 # Last modification by Marko Kosunen, marko.kosunen@aalto.fi, 19.07.2017 10:53
-# Version 1.4
-# Date: 27.06.2017
+# Version 1.6
+# Date: 26.10.2022
 #
 # Software required:
 #                  latex
@@ -27,25 +27,21 @@
 help_f()
 {
 cat << EOF    
-MAKEARTICLE Release 1.5 (19.08.2018)
-makeslides - Script for producing PDF document from TEX-files
+MAKEARTICLE Release 1.6 (26.10.2022)
+makearticle - Script for producing PDF document from TEX-files
 Written by Marko Pikkis Kosunen
 
 SYNOPSIS
   makeslides [OPTIONS] [FILE]
 DESCRIPTION
-  Produce PDF-document from givend TEX-files
+  Produce PDF-document from given TEX-files
   Output defaults to ./pdffiles/[FILE].pdf .
 
 OPTIONS
   -c
       Continuous compilation.
-  -d
-      Use dvi latex.
   -H
       Produce handouts.
-  -p
-      Use pdflatex (default).
   -h
       Show this help.
 EOF
@@ -53,17 +49,13 @@ EOF
 #Initialize variables
 size=a4;
 #numargs=$#
-#Test if  exists
-PDFMODE=1;
 HANDOUT=0;
 LOOP="1";
 LOOPING="0";
-while getopts cdpHh opt
+while getopts cHh opt
 do
   case "$opt" in
     c) LOOPING="1";;
-    d) PDFMODE="0";;
-    p) PDFMODE="1";;
     H) HANDOUT="1";;
     h) help_f; exit 0;;
     \?) help_f;;
@@ -95,42 +87,18 @@ fi
 
 while [ "$LOOP" -eq "1" ]; do
     # compile
-    if [ $PDFMODE == "0" ]; then
-        # create output directories
-        if [ ! -d ./psfiles ]; then
-         mkdir ./psfiles
-         echo "Created directory ./psfiles"
-        fi
-        latex $doc.tex
-        makeindex $doc.glo -s nomencl.ist -o $doc.gls
-        bibtex $doc
-        latex $doc.tex
-        latex $doc.tex
-        dvips -Ppdf -G0 -ta4 $doc.dvi -o - \
-        | ps2pdf -sPAPERSIZE=a4 -dMaxSubsetPct=100 -dCompatibilityLevel=1.4 \
-        -dPDFSETTINGS=/prepress -dSubsetFonts=true \
-        -dEmbedAllFonts=true - ./pdffiles/$doc.pdf
-    else 
-        if [ ! -d ./pdffiles ]; then
-         mkdir ./pdffiles
-         echo "Created directory ./pdffiles"
-        fi
-        pdflatex $doc.tex
-        makeindex $doc.nlo -s nomencl.ist -o $doc.nls
-        bibtex $doc
-        pdflatex $doc.tex
-        pdflatex $doc.tex
-        mv $doc.pdf ./pdffiles/
-        if [ $HANDOUT == "1" ]; then
-            echo "\PassOptionsToClass{handout}{beamer}" > ${doc}_handout.tex
-            cat ${doc}.tex >> ${doc}_handout.tex
-            pdflatex  ${doc}_handout.tex
-            makeindex ${doc}_handout.nlo -s nomencl.ist -o ${doc}_handout.nls
-            bibtex ${doc}_handout
-            pdflatex  ${doc}_handout.tex
-            pdflatex   ${doc}_handout.tex
-            mv ${doc}_handout.pdf ./pdffiles/ 
-        fi
+    if [ ! -d ./pdffiles ]; then
+     mkdir ./pdffiles
+     echo "Created directory ./pdffiles"
+    fi
+    latexmk -pdf -pdflatex="pdflatex -shell-escape -interaction=nonstopmode" -use-make $doc.tex
+    pdflatex $doc.tex
+    mv $doc.pdf ./pdffiles/
+    if [ $HANDOUT == "1" ]; then
+        echo "\PassOptionsToClass{handout}{beamer}" > ${doc}_handout.tex
+        cat ${doc}.tex >> ${doc}_handout.tex
+        latexmk -pdf -pdflatex="pdflatex -shell-escape -interaction=nonstopmode" -use-make $doc_handout.tex
+        mv ${doc}_handout.pdf ./pdffiles/ 
     fi
     touch $doc.timestamp
     if [ "${LOOPING}" -eq "1" ]; then
@@ -142,6 +110,7 @@ while [ "$LOOP" -eq "1" ]; do
         LOOP="0"
     fi
 done
+
 # remove useless crap
 for i in  *.dvi  *.aux  *.bbl  *.blg *.log *.out \
     *.toc *.nlo *.nls *.ilg *.snm ${doc}_handout.tex \
