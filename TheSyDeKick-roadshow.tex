@@ -79,31 +79,21 @@ verification framework in Python}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \sectiontitle[TheSyDeKick - What it is]
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectname}{What is TheSyDeKick}
 \subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
-        \begin{itemize}
-            \item TheSydeKick is a framework to enable programmatic
-                verification of complex mixed signal systems. Contributed by
-                multiple designers.
-            \item TheSyDeKick is a well structured container for: 
-                \begin{itemize}
-                    \item Python packages (Entities), that provide
-                        \emph{formalism and methods to run simulations in
-                        python, and with external simulators}
-                    \item Python packages (Entities), that provide
-                        formalism to create and use \emph{IO compatible models}
-                \end{itemize}
-            \item TheSydeKick is a cumulative collection of Python classes and
-                methods that help the designer to carry out the most common
-                tasks encountered in microelectronics design. Most likely the
-                \emph{simulation task you have in mind has some supporting
-                    methodology available in TheSyDeKick}
-            \item TheSyDeKick is \emph{nothing more}
-        \end{itemize}
+    \begin{block}{TheSyDeKick at glance}
+        \begin{center}
+            \includegraphics[width=0.75\textwidth]{Pics/TheSDK_block_diagram.eps}
+        \end{center}
+    \end{block}
+    \begin{itemize}
+        \item TheSyDeKick is a framework to enable programmatic
+            verification of complex mixed signal systems. Contributed by
+            multiple designers.
+    \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,37 +101,70 @@ verification framework in Python}}
 \subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
-    \begin{block}{TheSyDeKick project{TheSyDeKick project}}
+    \begin{block}{TheSyDeKick project structure}
         \begin{center}
-            \includegraphics[width=\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
+            \includegraphics[width=0.5\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
         \end{center}
     \end{block}
+    \begin{itemize}
+        \item TheSyDeKick is a well structured container for: 
+            \begin{itemize}
+                \item Python packages (Entities), that provide
+                    \emph{formalism and methods to run simulations in
+                    python, and with external simulators}
+                \item Python packages (Entities), that provide
+                    formalism to create and use \emph{IO compatible models}
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{What is it?}
+\renewcommand{\sectname}{TheSyDeKick project structure}
 \subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
-    \centering
-        \includegraphics[width=0.65\textwidth]{Pics/TheSDK_block_diagram.eps}
+    \begin{block}{TheSyDeKick project structure}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
+        \end{center}
+    \end{block}
+    \begin{itemize}
+        \item TheSydeKick is a cumulative collection of Python classes and
+            methods that help the designer to carry out the most common
+            tasks encountered in microelectronics design. Most likely the
+            \emph{simulation task you have in mind has some supporting
+            methodology available in TheSyDeKick}
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectname}{TheSyDeKick project structure}
+\subsection*{\sectname}
+\begin{frame}[t]
+    \frametitle{\sectname}
+    \begin{block}{TheSyDeKick project structure}
+        \begin{center}
+            \includegraphics[width=0.5\textwidth]{Pics/TheSyDeKick-entity-principles.eps}
+        \end{center}
+    \end{block}
+    \begin{itemize}
+       \item TheSyDeKick formalism helps the designer to: 
         \begin{itemize}
-            \item TheSyDeKick formalism helps the designer to: 
-            \begin{itemize}
-                \item Write and simulate modular, hierarchical, IO compatible
-                    hardware models with various levels of abstraction (python,
-                    spice/rtl or even EM field simulatotor)
-                \item Control the abstraction level with one parameter on
-                    chosen level of hierarchy.
-            \end{itemize}
+            \item Write and simulate modular, hierarchical, IO compatible
+                hardware models with various levels of abstraction (python,
+                spice/RTL or even EM field simulator)
+            \item Control the abstraction level with one parameter on
+                chosen level of hierarchy.
         \end{itemize}
+        \item TheSyDeKick is \emph{nothing more}
+    \end{itemize}
         {\tiny
         \url{https://github.com/TheSystemDevelopmentKit/thesdk_template/wiki/The-System-Development-Kit}}
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectname}{What is it?}
+\renewcommand{\sectname}{How it is costructed?}
 \subsection*{\sectname}
 \begin{frame}[t]
     \frametitle{\sectname}
@@ -250,7 +273,7 @@ verification framework in Python}}
 \begin{frame}[t]
     \frametitle{\sectionname}
     \begin{itemize}
-        \item Interface enables EM simulator Momentum from python desing
+        \item Interface entity \textbf{ads} enables EM simulator Momentum from python desing
             environment.
         \item Used so far for example:
             \begin{itemize}
