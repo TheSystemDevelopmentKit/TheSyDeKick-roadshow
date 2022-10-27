@@ -283,12 +283,11 @@ verification framework in Python}}
         \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Principle of simulation]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sectiontitle[Example 1: Inverter]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\sectionname}{Example 1: Inverter}
+\renewcommand{\sectionname}{First step: Self test }
 \subsection*{\sectionname}
 \begin{frame}[t]
     \frametitle{\sectionname}
@@ -296,6 +295,7 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_single_1}
     \end{center}
     \begin{itemize}
+        \item Example: inverter
         \item Functional model: Inverts input signal
         \item IOS is a Bundle-type container for storing IO data
         \item Can have as many members as needed
@@ -309,7 +309,7 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_single_2}
     \end{center}
     \begin{itemize}
-        \item Multiple representations of the same entity
+        \item Multiple models for the same entity: Python,spice,rtl
         \item Self-test is a way to verify the functionality of entity ``in
             vacuum''
         \item Self-test generates and feeds the identical input
@@ -318,7 +318,7 @@ verification framework in Python}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\sectiontitle[Example 2: Inverter chain]
+\sectiontitle[Next step: Connecting Entities]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\sectionname}{Example 2: Inverter Chain}
@@ -329,8 +329,9 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_0}
     \end{center}
     \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
+        \item Entities care connected inside another entities, (or in a
+            testbench).
+        \item Chain of inverter instances can created with a for loop.
     \end{itemize}
 \end{frame}
 
@@ -341,8 +342,9 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_2}
     \end{center}
     \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
+        \item Entities care connected inside another entities, (or in a
+            testbench).
+        \item Chain of inverter instances can created with a for loop.
         \item Data flow defined by IOS connections
     \end{itemize}
 \end{frame}
@@ -355,10 +357,11 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_3}
     \end{center}
     \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
+        \item Entities care connected inside another entities, (or in a
+            testbench).
+        \item Chain of inverter instances can created with a for loop.
         \item Data flow defined by IOS connections
-        \item Testbench input is assigned as input of 1st element
+        \item Signal is assigned as input of 1st element
     \end{itemize}
 \end{frame}
 
@@ -369,12 +372,13 @@ verification framework in Python}}
         \includegraphics[width=0.95\textwidth]{Pics/inverter_chain_4}
     \end{center}
     \begin{itemize}
-        \item A separate \textbf{Testbench} entity is instantiated
-        \item Chain of inverter instance is created with a for loop
+        \item Entities care connected inside another entities, (or in a
+            testbench).
+        \item Chain of inverter instances can created with a for loop.
         \item Data flow defined by IOS connections
-        \item Testbench input is assigned as input of 1st element
+        \item Signal is assigned as input of 1st element
         \item Signal is propagated through the chain by running the entities
-            in sequence
+            in user defined sequence
     \end{itemize}
 \end{frame}
 
@@ -388,6 +392,62 @@ verification framework in Python}}
         \item In the end, the output of the last element contains processed data
     \end{itemize}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\sectiontitle[Example 1: Inverter tests]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Verifying inverter system}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Example of test hierarchy from bottom up: inverter, inverter
+            testbench and inverter tests. 
+    \end{itemize}
+    \begin{block}{Inverter system serial test configuration}
+        \begin{center}
+            \includegraphics[width=\textwidth]{./Pics/Inverter_chain.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Multiple testbench configurations}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \begin{itemize}
+        \item Construction methods of testbench class enable various test
+            configurations.
+        \item All parallel executions can be executed in parallel threads resulting in remarkable speedup. 
+    \end{itemize}
+    \begin{block}{Inverter system parallel test configuration}
+        \begin{center}
+            \includegraphics[width=\textwidth]{./Pics/Inverter_parallel.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\sectionname}{Inverter system verification results}
+\subsection*{\sectionname}
+\begin{frame}[t]
+    \frametitle{\sectionname}
+    \begin{block}{Inverter system results}
+        \begin{center}
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialpy.eps}
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialicarus.eps}
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialngspice.eps}
+
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialpy.eps}
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialicarus.eps}
+            \includegraphics[width=0.3\textwidth]{./Pics/inv_serialngspice.eps}
+        \end{center}
+    \end{block}
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \sectiontitle[Example 3: ADC model]
