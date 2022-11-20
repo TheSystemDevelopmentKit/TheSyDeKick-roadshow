@@ -1,3 +1,11 @@
+*C:\nppdf32Log\debuglog.txt
 *~
 *.swp
+*.vrb
 *-eps-converted-to.pdf
+*.nfs
+*.svn
+*.nav
+*.fls
+*.fdb_latexmk
+
